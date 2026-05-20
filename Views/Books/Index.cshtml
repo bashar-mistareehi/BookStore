@@ -1,0 +1,94 @@
+﻿@model IEnumerable<BookStore.Models.Book>
+
+@{
+	ViewData["Title"] = "Book Catalog";
+}
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/books-style.css" />
+}
+
+<div class="container mt-5">
+	<div class="d-flex justify-content-between align-items-center mb-5">
+		<div>
+			<h2 class="fw-bold text-dark mb-1">Our Collection</h2>
+			<p class="text-muted">Find your next great read</p>
+		</div>
+
+		<!-- نظام التصنيف المتطور -->
+		<div class="dropdown">
+			<button class="btn btn-white shadow-sm border dropdown-toggle px-4" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="bi bi-grid-fill me-2"></i> Categories
+			</button>
+			<ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="categoryDropdown">
+				<li>
+					<a class="dropdown-item @(ViewBag.SelectedCategory == null ? "active" : "")"
+					   asp-controller="Books"
+					   asp-action="Index">All Books</a>
+				</li>
+				<li><hr class="dropdown-divider"></li>
+				@foreach (var cat in ViewBag.Categories)
+				{
+					<li>
+						<a class="dropdown-item @(ViewBag.SelectedCategory == cat.CategoryId ? "active" : "")"
+						   asp-controller="Books"
+						   asp-action="Index"
+						   asp-route-categoryId="@cat.CategoryId">
+							@cat.Name
+						</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+
+	<!-- شبكة عرض الكتب -->
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+		@if (!Model.Any())
+		{
+			<div class="col-12 w-100">
+				<div class="alert alert-info text-center shadow-sm py-5 border-0" role="alert">
+					<i class="bi bi-book-half mb-3 d-block" style="font-size: 3rem; opacity: 0.5;"></i>
+					<h4 class="fw-bold">No books available!</h4>
+					<p class="text-muted">Sorry, we don't have any books in the "@ViewBag.CurrentCategoryName" category yet.</p>
+					<a href="@Url.Action("Index")" class="btn btn-primary rounded-pill px-4 mt-2">Browse All Books</a>
+				</div>
+			</div>
+		}
+		else
+		{
+			@foreach (var item in Model)
+			{
+				<div class="col">
+					<div class="card h-100 shadow-sm border-0 book-card" onclick="location.href='@Url.Action("Details", new { id = item.BookId })'">
+
+						<div class="book-cover-wrapper pt-3">
+							@if (!string.IsNullOrEmpty(item.BookImage))
+							{
+								<img src="@item.BookImage" class="book-cover-img" style="width: 235px; height: 80px; object-fit: cover;" alt="@item.Title">
+							}
+							else
+							{
+								<img src="~/images/BookNoImage.png" class="book-cover-img" style="width: 235px; height: 80px; object-position:center top" alt="No Cover Available">
+							}
+						</div>
+
+						<div class="card-body px-3">
+							<div class="mb-2">
+								<span class="bg-soft-primary">@item.Category.Name</span>
+							</div>
+							<h6 class="card-title fw-bold text-dark mb-1 text-truncate" title="@item.Title">@item.Title</h6>
+							<p class="text-muted small mb-3">@item.Author</p>
+							<div class="d-flex justify-content-between align-items-center">
+								<span class="price-tag">@item.Price.ToString() <small>JD</small></span>
+								<button class="btn btn-sm btn-outline-primary rounded-circle shadow-sm">
+									<i class="bi bi-cart-plus"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
+</div>

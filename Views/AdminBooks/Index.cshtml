@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BookStore.Models.Book>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1> Books Collection</h1>
+
+<p>
+	<a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Author)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Price)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.BookImage)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Quantity)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Category.Name)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Author)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@if (!string.IsNullOrEmpty(item.BookImage))
+					{
+						<img src="@item.BookImage"
+							 class="rounded shadow-sm"
+							 style="width: 100px; height: 80px; object-fit: cover;"
+							 alt="Book Cover" />
+					}
+					else
+					{
+						<img src="~/images/no-image.png"
+							 class="rounded"
+							 style="width: 100px; height: 80px;"
+							 alt="No Image" />
+					}
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Quantity)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category.Name)
+				</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
+					<a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
+					<a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+

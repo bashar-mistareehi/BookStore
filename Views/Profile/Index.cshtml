@@ -1,0 +1,94 @@
+﻿@model BookStore.ViewModels.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-person-gear"></i> Edit Your Profile</h4>
+                </div>
+                <div class="card-body p-4">
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @* الضروري جداً: إضافة enctype للسماح برفع الملفات *@
+                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+
+                        @* حقل مخفي للمسار القديم حتى لا نفقده إذا لم يرفع المستخدم صورة جديدة *@
+                        <input type="hidden" asp-for="ExistingImagePath" />
+
+                        <div class="row mb-4 align-items-center">
+                            <div class="col-md-3 text-center">
+                                <label class="form-label d-block text-muted">Profile Picture</label>
+                                @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                                {
+                                    <img src="~/@Model.ExistingImagePath" class="img-thumbnail rounded-circle shadow-sm" style="width: 130px; height: 130px; object-fit: cover;" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/default-image.png"  class="img-thumbnail rounded-circle shadow-sm" style="width: 130px; height: 130px;" />
+                                }
+                            </div>
+                            <div class="col-md-9">
+                                <label asp-for="NewImageFile" class="form-label fw-bold">Update Photo</label>
+                                <input asp-for="NewImageFile" type="file" class="form-control" accept="image/*" />
+                                <small class="text-secondary italic">Accepted formats: JPG, PNG. Max size: 2MB.</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Basic Info -->
+                            <div class="col-md-6 border-end">
+                                <h5 class="text-primary mb-3"><i class="bi bi-info-circle"></i> Account Info</h5>
+                                <div class="form-group mb-3">
+                                    <label asp-for="FullName" class="form-label">Full Name</label>
+                                    <input asp-for="FullName" class="form-control" />
+                                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Email" class="form-label">Email</label>
+                                    <input asp-for="Email" class="form-control" readonly />
+                                </div>
+                            </div>
+
+                            <!-- Contact Details -->
+                            <div class="col-md-6">
+                                <h5 class="text-primary mb-3"><i class="bi bi-geo-alt"></i> Contact Details</h5>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Phone" class="form-label">Phone</label>
+                                    <input asp-for="Phone" class="form-control" />
+                                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label asp-for="Country" class="form-label">Country</label>
+                                    <input asp-for="Country" class="form-control" />
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label asp-for="Address" class="form-label">Address</label>
+                                    <textarea asp-for="Address" class="form-control" rows="1"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-success px-5">Save Changes</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-success px-5">Back</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

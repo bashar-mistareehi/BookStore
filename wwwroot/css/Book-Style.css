@@ -1,0 +1,73 @@
+﻿/* تحسينات بطاقة الكتاب */
+.book-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+    .book-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.1) !important;
+    }
+
+/* تنسيق الصورة لتبدو كغلاف كتاب حقيقي */
+.book-cover-wrapper {
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f9fa;
+    border-radius: 10px 10px 0 0;
+}
+
+.book-cover-img {
+    height: 250px;
+    width: 100%;
+    object-fit: contain; /* يحافظ على أبعاد غلاف الكتاب الأصلية */
+    transition: transform 0.5s ease;
+    padding: 15px;
+}
+
+.book-card:hover .book-cover-img {
+    transform: scale(1.08);
+}
+
+.bg-soft-primary {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+.price-tag {
+    font-size: 1.2rem;
+    color: #198754;
+    font-weight: bold;
+}
+
+.book-img-container {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.book-detail-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+/* ألوان وتنسيقات هادئة */
+.info-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.price-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
